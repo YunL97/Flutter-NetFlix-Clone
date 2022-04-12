@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 //stless 탭
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+   MyApp({Key? key}) : super(key: key);
+
+  var a = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -14,39 +16,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         //Scaffold
         home: Scaffold(
+          //버튼에는 child, onPressed 필요
+          floatingActionButton: FloatingActionButton(
+            child: Text(a.toString()),
+            onPressed: (){
+              a = a + 1;
+            },
+          ),
             appBar: AppBar(
               leading: Icon(Icons.star),
               title: Text("aaa"),
             ),
             body: Container(
               width: double.infinity,
-              child: ListView(
-
-                children: [
-                  Container(
-                    color: Colors.grey,
-                    child: Row(
-
-                      children: [
-                        Icon(Icons.star),
-                        Text("aa")
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.star),
-                      Text("aa")
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.star),
-                      Text("aa")
-                    ],
-                  ),
-                ],
-              ),
+              child: ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, i){
+                    return Text(i.toString());
+                  },
+              )
             )
         )
     );
