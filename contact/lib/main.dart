@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(
+    MaterialApp(
+      home: MyApp())
+    );
+
 }
 
-//stless 탭
+//stful 탭
 class MyApp extends StatefulWidget {
    MyApp({Key? key}) : super(key: key);
 
@@ -16,18 +20,35 @@ class _MyAppState extends State<MyApp> {
   var a = 1;
   var name = ['lee','yun','sik'];
   var like = [0,0,0];
-  @override
+  @override // context에는 MaterialApp 정보가 들어있음
   Widget build(BuildContext context) {
     //MaterialApp: 구글이제공하는 Material을 사용가능 but google스타일 custom 하고싶을때에도 사용가능 MeterialApp 사용안하면 코드 3배 증가
-    return MaterialApp(
-        //Scaffold
-        home: Scaffold(
+    return Scaffold(
           //버튼에는 child, onPressed 필요
           floatingActionButton: FloatingActionButton(
             child: Text(a.toString()),
             onPressed: (){
               setState(() {
                 a++;
+                showDialog(context: context, builder: (context){
+                    return  AlertDialog(
+                      title: Text('contact'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                              TextField()
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(onPressed: (){
+                        }, child: Text("확인")),
+                        TextButton(onPressed: (){
+                          Navigator.of(context).pop();
+                        }, child: Text("취소"))
+                      ],
+                    );
+                });
               });
             },
           ),
@@ -43,22 +64,11 @@ class _MyAppState extends State<MyApp> {
                     return ListTile(
                       leading: Text(like[i].toString()),
                       title: Text(name[i]),
-                      trailing: ElevatedButton(onPressed: (){
-                        setState(() {
-                          like[i]++;
-                        });
-
-                      },
-
-                      child: Text("button"),
-
-                      ),
                     );
                   },
               )
             )
-        )
-    );
+        );
   }
 }
 
