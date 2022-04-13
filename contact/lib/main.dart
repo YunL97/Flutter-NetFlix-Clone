@@ -5,11 +5,17 @@ void main() {
 }
 
 //stless 탭
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
    MyApp({Key? key}) : super(key: key);
 
-  var a = 1;
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
+  var a = 1;
+  var name = ['lee','yun','sik'];
+  var like = [0,0,0];
   @override
   Widget build(BuildContext context) {
     //MaterialApp: 구글이제공하는 Material을 사용가능 but google스타일 custom 하고싶을때에도 사용가능 MeterialApp 사용안하면 코드 3배 증가
@@ -20,19 +26,34 @@ class MyApp extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             child: Text(a.toString()),
             onPressed: (){
-              a = a + 1;
+              setState(() {
+                a++;
+              });
             },
           ),
             appBar: AppBar(
               leading: Icon(Icons.star),
-              title: Text("aaa"),
+              title: Text("연락처앱"),
             ),
             body: Container(
-              width: double.infinity,
               child: ListView.builder(
                   itemCount: 3,
                   itemBuilder: (context, i){
-                    return Text(i.toString());
+
+                    return ListTile(
+                      leading: Text(like[i].toString()),
+                      title: Text(name[i]),
+                      trailing: ElevatedButton(onPressed: (){
+                        setState(() {
+                          like[i]++;
+                        });
+
+                      },
+
+                      child: Text("button"),
+
+                      ),
+                    );
                   },
               )
             )
