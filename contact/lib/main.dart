@@ -31,23 +31,7 @@ class _MyAppState extends State<MyApp> {
               setState(() {
                 a++;
                 showDialog(context: context, builder: (context){
-                    return  AlertDialog(
-                      title: Text('contact'),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: <Widget>[
-                              TextField()
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(onPressed: (){
-                        }, child: Text("확인")),
-                        TextButton(onPressed: (){
-                          Navigator.of(context).pop();
-                        }, child: Text("취소"))
-                      ],
-                    );
+                    return  DialogUI(state: a);
                 });
               });
             },
@@ -86,6 +70,31 @@ class ShopItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Text("aa"),
+    );
+  }
+}
+
+class DialogUI extends StatelessWidget {
+   DialogUI({Key? key , this.state}) : super(key: key);
+  var state;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('contact'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            TextField()
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(onPressed: (){
+        }, child: Text(state.toString())),
+        TextButton(onPressed: (){
+          Navigator.of(context).pop();
+        }, child: Text("취소"))
+      ],
     );
   }
 }
