@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var a = 1;
+  var total = 3;
   var name = ['lee','yun','sik'];
   var like = [0,0,0];
   @override // context에는 MaterialApp 정보가 들어있음
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
           ),
             appBar: AppBar(
               leading: Icon(Icons.star),
-              title: Text("연락처앱"),
+              title: Text(total.toString()),
             ),
             body: Container(
               child: ListView.builder(
@@ -90,7 +91,10 @@ class DialogUI extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(onPressed: (){
-        }, child: Text(state.toString())),
+
+        },
+            child: Text(state.toString())
+        ),
         TextButton(onPressed: (){
           Navigator.of(context).pop();
         }, child: Text("취소"))
