@@ -43,5 +43,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSContactsUsageDescription</key>
+    <string>님 폰의 연락처 권한이 필요합니다 제발 주셈</string>
 </dict>
 </plist>
