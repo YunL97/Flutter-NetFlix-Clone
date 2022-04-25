@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:instacodingapple/style.dart' as style;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'home.dart';
 
 void main() {
   runApp(
@@ -19,6 +23,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var tab = 0;
+  var data = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    var result = await http.get( Uri.parse('https://codingapple1.github.io/app/data.json') );
+    if (result.statusCode == 200) {
+
+    }else {
+
+    }
+    var result2 = jsonDecode(result.body);
+    // print(result2[0]['likes']);
+    setState(() {
+      data = result2;
+    });
+
+    // print(result2[0]);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,30 +56,23 @@ class _MyAppState extends State<MyApp> {
         actions: [Icon(Icons.add_box_outlined,),Text("da", style: TextStyle(color: Colors.white),) ],),
                                   // 원하는 ThemeData안의 내용을 불러옴
       body: [
-        Container(
-        child: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context,i){
-           return Column(
-              children: [
-                Text("aa"),
-                Image(image: AssetImage("images/download.jpg"))
-              ]
-            );
-          print("a");
-          },
-        )
-        ),
+        Home(data: data),
       Text('샵페이지')][tab],
           
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        // showSelectedLabels: false,
+        // showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black.withOpacity(.60),
+        currentIndex: tab,
         onTap: (i){
           if (i == 0) {
             setState(() {
               tab =0;
+
             });
           }else {
             setState(() {
@@ -62,7 +83,7 @@ class _MyAppState extends State<MyApp> {
         items: [
           BottomNavigationBarItem(
               label:  "홈",
-            icon:Icon(Icons.home_outlined, color: Colors.black,)
+            icon:Icon(Icons.home_outlined,)
           ),
           BottomNavigationBarItem(
               label:  "샵",

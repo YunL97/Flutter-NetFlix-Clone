@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 
 var theme = ThemeData(
-   //  textButtonTheme: TextButtonThemeData(
-   //      style: TextButton.styleFrom(
-   //          backgroundColor: Colors.grey,
-   //      )
-   //  ),
+    textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+            backgroundColor: Colors.grey,
+        )
+    ),
    //  elevatedButtonTheme: (
    //
    // ),
@@ -21,14 +21,16 @@ var theme = ThemeData(
 
         //actions:[] 안의 아이콘 테마 결정 가능
         actionsIconTheme: IconThemeData(color: Colors.black, size: 30, ),
-        titleTextStyle: TextStyle(color: Colors.black, fontSize: 30, fontStyle: FontStyle.normal)
+        titleTextStyle: TextStyle(color: Colors.black, fontSize: 23, fontStyle: FontStyle.normal)
 
     ),
     textTheme: TextTheme(
         bodyText2: TextStyle(color: Colors.red),
         bodyText1: TextStyle(color: Colors.blue)
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
-        color: Colors.black
-    )
+    // bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    //     backgroundColor: Colors.white,
+    //     selectedItemColor: Colors.black,
+    //     unselectedItemColor: Colors.red,
+    // )
 );
