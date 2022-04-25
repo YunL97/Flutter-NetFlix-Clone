@@ -1,9 +1,12 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 
 void main() {
   runApp(
       MaterialApp(
+        debugShowCheckedModeBanner: false,
           home: MyApp())
   );
 
@@ -33,6 +36,17 @@ class _MyAppState extends State<MyApp> {
     var status = await Permission.contacts.status;
     if(status.isGranted){
       print("허락됨");
+      //전화번호 가져오는 코드
+      var contacts = await ContactsService.getContacts();
+    setState(() {
+      name = contacts;
+    });
+
+      // print(contacts[0].givenName);
+      // var newPerson = Contact();
+      // newPerson.givenName = '민수';
+      // newPerson.familyName = "김";
+      // ContactsService.addContact(newPerson);
     }else if (status.isDenied){
       print('거절됨');
       Permission.contacts.request();
@@ -42,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   var a = 1;
   var total = 3;
   //state 수정되면 자동으로 재렌더링
-  var name = ['lee','yun','sik','asd'];
+  var name = [];
 
 
   addOne() {
@@ -54,7 +68,7 @@ class _MyAppState extends State<MyApp> {
   addPerson(String namePlus) {
     setState(() {
       print(namePlus);
-      name.add(namePlus);
+      // name.add(namePlus);
       print(name);
     });
   }
@@ -71,7 +85,7 @@ class _MyAppState extends State<MyApp> {
             setState(() {
               a++;
               showDialog(context: context, builder: (context){
-                return  DialogUI(state: a, addOne:addOne, addPerson:addPerson);
+                return  DialogUI(state: a, addOne:addOne, addPerson:addPerson, getPermission:getPermission);
               });
             });
           },
@@ -91,7 +105,7 @@ class _MyAppState extends State<MyApp> {
                 return ListTile(
                   // leading: Text(like[i].toString()),
                   leading: Icon(Icons.home),
-                  title: Text(name[i]),
+                  title: Text(name[i].givenName ?? "노네임"),
                 );
               },
             )
@@ -119,11 +133,12 @@ class ShopItem extends StatelessWidget {
 }
 
 class DialogUI extends StatelessWidget {
-  DialogUI({Key? key , this.state, this.addOne, this.addPerson}) : super(key: key);
+  DialogUI({Key? key , this.state, this.addOne, this.addPerson, this.getPermission}) : super(key: key);
   var state;
   var addOne;
   var addPerson;
   var inputData = TextEditingController();
+  var getPermission;
 
   //{} Map
   var inputData2 = '';
@@ -145,6 +160,12 @@ class DialogUI extends StatelessWidget {
         TextButton(onPressed: (){
           addOne();
           addPerson(inputData2);
+          var newPerson = Contact();
+          newPerson.givenName = inputData2;
+          newPerson.familyName = "김";
+          ContactsService.addContact(newPerson);
+          getPermission();
+
           Navigator.of(context).pop();
         },
             child: Text(state.toString())
