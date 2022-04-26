@@ -54,8 +54,15 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Instagram'),
-        actions: [Icon(Icons.add_box_outlined,),Text("da", style: TextStyle(color: Colors.white),) ],),
-                                  // 원하는 ThemeData안의 내용을 불러옴
+        actions: [
+          IconButton(icon: Icon(Icons.add_box_outlined),
+            onPressed: (){},
+            iconSize: 30,
+          ),
+          Text("da", style: TextStyle(color: Colors.white),)
+        ],
+      ),
+      // 원하는 ThemeData안의 내용을 불러옴
       body: [
         Home(data: data),
       Text('샵페이지')][tab],

@@ -9,6 +9,7 @@ class ImageData extends StatelessWidget {
   final double? width;
   @override
   Widget build(BuildContext context) {
+    //
     return Image.asset(icon, width: width! / Get.mediaQuery.devicePixelRatio,);
   }
 }
