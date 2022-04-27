@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  //마지막 도착하면 이미지 나옴
   getMore() async {
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/more1.json'));
     var result2 = jsonDecode(result.body);

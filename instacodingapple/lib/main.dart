@@ -3,10 +3,13 @@ import 'package:instacodingapple/style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'package:instacodingapple/upload.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 
 import 'home.dart';
 
+//8:18
 void main() {
   runApp(
       MaterialApp(
@@ -26,6 +29,30 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var tab = 0;
   var data = [];
+  var userImage;
+  var userContent;
+
+  addMyData() {
+    var myData = {
+      'id': data.length,
+      'image': userImage,
+      'like':5,
+      'date': 'July 25',
+      'content': '등을대라',
+      'liked': false,
+      'user': 'lee',
+    };
+    setState(() {
+      data.insert(0, myData);
+    });
+  }
+
+  setUserContent(a) {
+    setState(() {
+      userContent = a;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -63,14 +90,27 @@ class _MyAppState extends State<MyApp> {
         title: Text('Instagram'),
         actions: [
           IconButton(icon: Icon(Icons.add_box_outlined),
-            onPressed: (){
+            onPressed: () async{
+            //선택화면 띄우는법법
+           var picker = ImagePicker();
+            var image = await picker.pickImage(source: ImageSource.gallery);
+
+            if (image != null) {
+              setState(() {
+                userImage = File(image.path);
+              });
+            }
+            //파일경로로 이미지 띄우는법
+            // Image.file(userImage);
+
             //MaterialApp이 들어있는 context를 넣어야함
               Navigator.push(context,
-
                   //                context: 중간에 context를 하나 만들어주는 기능
                   //  ((context) => Upload) 리턴과 중괄호 생략
                   MaterialPageRoute(builder: (context) {
-                    return Upload();
+                    return Upload(userImage: userImage,
+                        setUserContent: setUserContent,
+                        addMyData: addMyData);
                   })
               );
             },
