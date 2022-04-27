@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instacodingapple/style.dart' as style;
 import 'package:http/http.dart' as http;
+import 'package:instacodingapple/upload.dart';
 import 'dart:convert';
 
 
@@ -62,7 +63,17 @@ class _MyAppState extends State<MyApp> {
         title: Text('Instagram'),
         actions: [
           IconButton(icon: Icon(Icons.add_box_outlined),
-            onPressed: (){},
+            onPressed: (){
+            //MaterialApp이 들어있는 context를 넣어야함
+              Navigator.push(context,
+
+                  //                context: 중간에 context를 하나 만들어주는 기능
+                  //  ((context) => Upload) 리턴과 중괄호 생략
+                  MaterialPageRoute(builder: (context) {
+                    return Upload();
+                  })
+              );
+            },
             iconSize: 30,
           ),
           Text("da", style: TextStyle(color: Colors.white),)
