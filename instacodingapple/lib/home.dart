@@ -1,10 +1,13 @@
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key , this.data}) : super(key: key);
+  Home({Key? key , this.data,required this.addData}) : super(key: key);
   final data;
-
+  final addData;
+  
   @override
   State<Home> createState() => _HomeState();
 }
@@ -20,9 +23,16 @@ class _HomeState extends State<Home> {
     scroll.addListener(() {
       if (scroll.position.pixels == scroll.position.maxScrollExtent){
         // print("같음");
-
+        getMore();
       }
     });
+  }
+
+  getMore() async {
+    var result = await http.get(Uri.parse('https://codingapple1.github.io/app/more1.json'));
+    var result2 = jsonDecode(result.body);
+    widget.addData(result2);
+    print("aa");
   }
 
   @override
@@ -32,7 +42,7 @@ class _HomeState extends State<Home> {
       return Container(
           child: ListView.builder(
             controller: scroll,
-            itemCount: 3,
+            itemCount: widget.data.length,
             itemBuilder: (context, i) {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

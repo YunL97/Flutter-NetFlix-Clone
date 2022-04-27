@@ -32,6 +32,12 @@ class _MyAppState extends State<MyApp> {
     getData();
   }
 
+  addData(a) {
+    setState(() {
+      data.add(a);
+    });
+  }
+
   getData() async {
     var result = await http.get( Uri.parse('https://codingapple1.github.io/app/data.json') );
     if (result.statusCode == 200) {
@@ -64,7 +70,7 @@ class _MyAppState extends State<MyApp> {
       ),
       // 원하는 ThemeData안의 내용을 불러옴
       body: [
-        Home(data: data),
+        Home(data: data, addData: addData,),
       Text('샵페이지')][tab],
           
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
