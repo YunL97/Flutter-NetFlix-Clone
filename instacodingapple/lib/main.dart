@@ -123,6 +123,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    //반응형 디자인 현재 페이지의 가로를 알려주는 코드
+    MediaQuery.of(context).size.width;
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(child: Text('+'), onPressed: (){
           showNotification2();

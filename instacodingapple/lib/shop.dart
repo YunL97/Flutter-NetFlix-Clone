@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 final firestore = FirebaseFirestore.instance;
+final auth = FirebaseAuth.instance;
 
 class Shop extends StatefulWidget {
   const Shop({Key? key}) : super(key: key);
@@ -25,14 +28,22 @@ class _ShopState extends State<Shop> {
     //   }
     // }
     //or
-    try {
-      var result = await firestore.collection('product').get();
-        for ( var doc in result.docs){
-          print(doc['name']);
-        }
-    }catch (e){
-          print("에러남");
-    }
+    // try {
+    //   var result = await firestore.collection('product').get();
+    //     for ( var doc in result.docs){
+    //       print(doc['name']);
+    //     }
+    // }catch (e){
+    //       print("에러남");
+    // }
+
+
+
+
+
+  }
+  _addData() async{
+    await firestore.collection('product').add({'name': '내복', 'price' : 5000});
   }
 
   @override
@@ -40,6 +51,7 @@ class _ShopState extends State<Shop> {
     // TODO: implement initState
     super.initState();
     getData();
+    _addData();
   }
 
   @override
