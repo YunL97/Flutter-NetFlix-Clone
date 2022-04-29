@@ -5,17 +5,23 @@ import 'package:instacodingapple/upload.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'home.dart';
 
-//8:18
+
 void main() {
   runApp(
-      MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: style.theme,
-        home: MyApp(),
+    //MaterialApp 자식 위젯들은 전부 Store1에 있던 state 사용가능
+      ChangeNotifierProvider(
+        create: (c) => Store1(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: style.theme,
+          home: MyApp(),
+        ),
       ));
 }
 
@@ -32,6 +38,20 @@ class _MyAppState extends State<MyApp> {
   var userImage;
   var userContent;
 
+  //핸드폰에 데이터 저장
+  savaData() async {
+    var storage = await SharedPreferences.getInstance();
+
+    //json으로 저장하는법
+    var map = {'age': 20};
+    storage.setString('map', jsonEncode(map));
+    // print(map);  //{age: 20}
+    // print(jsonEncode(map)); //{"age":20}
+    var result = storage.getString('map') ?? "데이터 없음";
+    print(jsonDecode(result)['age']);
+  }
+
+  //업로드 데이터, 데이터 맨앞단으로 들어오게.
   addMyData() {
     var myData = {
       'id': data.length,
@@ -57,6 +77,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    savaData();
     getData();
   }
 

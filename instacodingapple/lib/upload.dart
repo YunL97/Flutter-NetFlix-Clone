@@ -26,6 +26,7 @@ class Upload extends StatelessWidget {
               setUserContent(text);
             },),
             IconButton(onPressed: (){
+              addMyData();
               Navigator.pop(context);
             }, icon: Icon(Icons.add_box_outlined))
           ],
