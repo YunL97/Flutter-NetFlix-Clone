@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:instacodingapple/notification.dart';
+import 'package:instacodingapple/shop.dart';
 import 'package:instacodingapple/style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'package:instacodingapple/upload.dart';
@@ -9,20 +12,33 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+import 'firebase_options.dart';
 import 'home.dart';
 
 
-void main() {
+void main()  async{
+
+  //파이어베이스 연동 코드
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     //MaterialApp 자식 위젯들은 전부 Store1에 있던 state 사용가능
-      ChangeNotifierProvider(
-        create: (c) => Store1(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: style.theme,
-          home: MyApp(),
+
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (c) => Store1()),
+          ChangeNotifierProvider(create: (c) => Store2()),
+        ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: style.theme,
+            home: MyApp(),
+          ),
         ),
-      ));
+      );
 }
 
 class MyApp extends StatefulWidget {
@@ -77,6 +93,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initNotification(context);
     savaData();
     getData();
   }
@@ -107,6 +124,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(child: Text('+'), onPressed: (){
+          showNotification2();
+        },),
       appBar: AppBar(
         title: Text('Instagram'),
         actions: [
@@ -143,7 +163,8 @@ class _MyAppState extends State<MyApp> {
       // 원하는 ThemeData안의 내용을 불러옴
       body: [
         Home(data: data, addData: addData,),
-      Text('샵페이지')][tab],
+        Shop()
+      ][tab],
           
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
       bottomNavigationBar: BottomNavigationBar(

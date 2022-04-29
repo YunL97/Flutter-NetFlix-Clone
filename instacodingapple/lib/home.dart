@@ -101,13 +101,23 @@ class Store1 extends ChangeNotifier {
   var name = 'john kim';
   var follower = 0;
   var followerbutton = false;
+  var profileImage = [];
+  notifyListeners();
+  
+  
+  getData() async{
+    var result = await http.get(Uri.parse('https://codingapple1.github.io/app/profile.json'));
+    var result2 = jsonDecode(result.body);
+    profileImage = result2;
+    notifyListeners();
+  }
+  
   ChangeName() {
     name = 'john park';
     
     //재렌더링
     notifyListeners();
   }
-
   ClickFollowerButton() {
     if (followerbutton == false){
       ++follower;
@@ -120,6 +130,10 @@ class Store1 extends ChangeNotifier {
   }
 }
 
+class Store2 extends ChangeNotifier {
+
+}
+
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -127,18 +141,46 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(context.watch<Store1>().name),),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ElevatedButton(onPressed: () {
-            context.read<Store1>().ChangeName();
-          }, child: Text('버튼')),
-          Text("${context.watch<Store1>().follower}"),
-          ElevatedButton(onPressed: (){
-            context.read<Store1>().ClickFollowerButton();
-          }, child: Text("팔로우")),
-        ],
+      body: CustomScrollView(
+       slivers: [
+         SliverToBoxAdapter(
+           child: ProfileHeader(),
+         ),
+         SliverGrid(
+           delegate: SliverChildBuilderDelegate(
+               (c,i) => Container(
+                 child: Image.network(context.watch<Store1>().profileImage[i])
+               ),
+             childCount: context.watch<Store1>().profileImage.length
+           ),
+           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+         )
+       ],
       ),
     );
   }
 }
+
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ElevatedButton(onPressed: () {
+          context.read<Store1>().ChangeName();
+        }, child: Text('버튼')),
+        Text("${context.watch<Store1>().follower}"),
+        ElevatedButton(onPressed: (){
+          context.read<Store1>().ClickFollowerButton();
+        }, child: Text("팔로우")),
+        ElevatedButton(onPressed: (){
+          context.read<Store1>().getData();
+        }, child: Text("사진 가져오기")),
+      ],
+    );
+  }
+}
+

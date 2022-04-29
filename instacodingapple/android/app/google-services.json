@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "929431749251",
+    "project_id": "fluttergram-6c0fb",
+    "storage_bucket": "fluttergram-6c0fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929431749251:android:5196b04626f3516f7c11b6",
+        "android_client_info": {
+          "package_name": "com.example.instacodingapple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929431749251-gh78sj6vuf1dclukpp7h8d74uknrcmmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASSG1BCL_9aJvDjG_uij3dwG7_FN7cl_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929431749251-gh78sj6vuf1dclukpp7h8d74uknrcmmb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "929431749251-hddqlacajqgrqb72il6jvv0ejr1jdts3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instacodingapple"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
