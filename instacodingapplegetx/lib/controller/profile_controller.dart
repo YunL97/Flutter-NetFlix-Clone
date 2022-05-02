@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
 
+  RxInt count = 0.obs;
   RxString name = 'john lee'.obs;
   RxInt follower = 0.obs;
   RxBool followerbutton = false.obs;
@@ -15,7 +16,8 @@ class ProfileController extends GetxController {
   void getData() async{
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/profile.json'));
     var result2 = jsonDecode(result.body);
-    profileImage = result2;
+    profileImage(result2);
+    print(result2);
   }
 
   void ChangeName() {
@@ -34,5 +36,14 @@ class ProfileController extends GetxController {
   int ProfileImagelength() {
     return profileImage.length;
 }
+
+
+
+@override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    ever(profileImage,(_) => count(profileImage.length));
+  }
 
 }

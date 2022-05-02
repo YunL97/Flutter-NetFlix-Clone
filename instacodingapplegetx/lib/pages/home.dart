@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
   //스크롤 관련 데이터들 바로바로 저장됨
   var scroll = ScrollController();
 
+  //oninit로 바꾸기
   @override
   void initState() {
     // TODO: implement initState

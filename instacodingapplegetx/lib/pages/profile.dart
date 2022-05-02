@@ -9,6 +9,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var count = 0;
     Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(title:
@@ -30,11 +31,14 @@ class Profile extends StatelessWidget {
                     (c,i) => Container(
                     child:GetX<ProfileController>(
                             builder: (_){
-                            return Image.network(_.profileImage.value[i]);
+                              count = _.profileImage.length;
+                              print(count);
+                            return Image.network(_.profileImage[i]);
                               }),
                     // Image.network(context.watch<Store1>().profileImage[i])),
             ),
-                childCount: Get.find<ProfileController>().ProfileImagelength()
+                 childCount:
+              // Get.find<ProfileController>().ProfileImagelength(),
                 // context.watch<Store1>().profileImage.length),
             )
             ,gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -50,11 +54,13 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(onPressed: () {
           // context.read<Store1>().ChangeName();
+          Get.find<ProfileController>().ChangeName();
         }, child: Text('버튼')),
         // Text("${context.watch<Store1>().follower}"),
         ElevatedButton(onPressed: (){
@@ -62,6 +68,7 @@ class ProfileHeader extends StatelessWidget {
         }, child: Text("팔로우")),
         ElevatedButton(onPressed: (){
           // context.read<Store1>().getData();
+          Get.find<ProfileController>().getData();
         }, child: Text("사진 가져오기")),
       ],
     );
