@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Upload extends StatelessWidget {
-  const Upload({Key? key, required this.userImage, this.setUserContent, this.addMyData}) : super(key: key);
-  final userImage;
-  final setUserContent;
-  final addMyData;
+  const Upload({Key? key,}) : super(key: key);
+  // final userImage;
+  // final setUserContent;
+  // final addMyData;
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class Upload extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.file(userImage ,height: 300),
+            Image.file(Get.arguments['userImage'] ,height: 300),
             Text("이미지 업로드 화면"),
             TextField(onChanged: (text){
-              setUserContent(text);
+              Get.arguments['setUserContent'](text);
             },),
             IconButton(onPressed: (){
-              addMyData();
+              Get.arguments['addMyData']();
               Navigator.pop(context);
             }, icon: Icon(Icons.add_box_outlined))
           ],

@@ -16,26 +16,26 @@ class Shop extends StatefulWidget {
 class _ShopState extends State<Shop> {
 
   getData() async{
-    //목록가져오기
+    // 목록가져오기
     // var result = await firestore.collection('product').doc('INmDj0z05cT1nT0UVA5o').get();
     // print(result['price']);
 
-    //데이터 다가져오기;
-    // var result = await firestore.collection('product').get();
+    // 데이터 다가져오기;
+    // // var result = await firestore.collection('product').get();
     // if(result.docs.isNotEmpty) {
     //   for ( var doc in result.docs){
     //     print(doc['name']);
     //   }
     // }
-    //or
-    // try {
-    //   var result = await firestore.collection('product').get();
-    //     for ( var doc in result.docs){
-    //       print(doc['name']);
-    //     }
-    // }catch (e){
-    //       print("에러남");
-    // }
+    // or
+    try {
+      var result = await firestore.collection('product').get();
+        for ( var doc in result.docs){
+          print(doc['name']);
+        }
+    }catch (e){
+          print("에러남");
+    }
 
 
 

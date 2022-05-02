@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -56,29 +57,7 @@ class _HomeState extends State<Home> {
                     GestureDetector(
                       child: Text(widget.data[i]['user']),
                       onTap: () {
-                        Navigator.push(context,
-                        //기본 route 애니메이션
-                        // CupertinoPageRoute(builder: (c) => Profile())
-                            
-                            //커스텀 route 애니메이션
-                            PageRouteBuilder(pageBuilder: (c, a1, a2) => Profile(),
-                                //context: 새로운 context 새로 생성,
-                                // a1: animation object, 페이지 전환 얼마나 되었는지 0-1로 알려줌
-                                //a2 : 기존페이지를 애니메이션 쓰고 싶을 때 사용
-                                //child: 새로 띄울 페이지
-                                transitionsBuilder: (c, a1, a2, child) =>
-
-                                   /* FadeTransition(opacity: a1, child: child,),
-                                    transitionDuration: Duration(microseconds: 1000500) */
-                              SlideTransition(position: Tween(
-                                begin: Offset(1.0, 0.0),
-                                end: Offset(0.0, 0.0)
-                              ).animate(a1),
-                              child: child,
-                                
-                              )
-                        )
-                        );
+                       Get.toNamed('/profile');
                       },
                     )
                     ,
@@ -134,53 +113,5 @@ class Store2 extends ChangeNotifier {
 
 }
 
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(context.watch<Store1>().name),),
-      body: CustomScrollView(
-       slivers: [
-         SliverToBoxAdapter(
-           child: ProfileHeader(),
-         ),
-         SliverGrid(
-           delegate: SliverChildBuilderDelegate(
-               (c,i) => Container(
-                 child: Image.network(context.watch<Store1>().profileImage[i])
-               ),
-             childCount: context.watch<Store1>().profileImage.length
-           ),
-           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-         )
-       ],
-      ),
-    );
-  }
-}
-
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ElevatedButton(onPressed: () {
-          context.read<Store1>().ChangeName();
-        }, child: Text('버튼')),
-        Text("${context.watch<Store1>().follower}"),
-        ElevatedButton(onPressed: (){
-          context.read<Store1>().ClickFollowerButton();
-        }, child: Text("팔로우")),
-        ElevatedButton(onPressed: (){
-          context.read<Store1>().getData();
-        }, child: Text("사진 가져오기")),
-      ],
-    );
-  }
-}
 
