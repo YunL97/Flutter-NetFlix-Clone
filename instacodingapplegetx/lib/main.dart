@@ -28,13 +28,7 @@ void main()  async{
 
   runApp(
     //MaterialApp 자식 위젯들은 전부 Store1에 있던 state 사용가능
-
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (c) => Store1()),
-          ChangeNotifierProvider(create: (c) => Store2()),
-        ],
-          child: GetMaterialApp(
+          GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: style.theme,
             initialRoute: '/',
@@ -44,8 +38,8 @@ void main()  async{
               GetPage(name: '/profile', page: () => Profile()),
           ],
           ),
-        ),
-      );
+        );
+
 }
 
 class MyApp extends StatefulWidget {
@@ -61,18 +55,18 @@ class _MyAppState extends State<MyApp> {
   var userImage;
   var userContent;
 
-  //핸드폰에 데이터 저장
-  savaData() async {
-    var storage = await SharedPreferences.getInstance();
-
-    //json으로 저장하는법
-    var map = {'age': 20};
-    storage.setString('map', jsonEncode(map));
-    // print(map);  //{age: 20}
-    // print(jsonEncode(map)); //{"age":20}
-    var result = storage.getString('map') ?? "데이터 없음";
-    print(jsonDecode(result)['age']);
-  }
+  // //핸드폰에 데이터 저장
+  // savaData() async {
+  //   var storage = await SharedPreferences.getInstance();
+  //
+  //   //json으로 저장하는법
+  //   var map = {'age': 20};
+  //   storage.setString('map', jsonEncode(map));
+  //   // print(map);  //{age: 20}
+  //   // print(jsonEncode(map)); //{"age":20}
+  //   var result = storage.getString('map') ?? "데이터 없음";
+  //   print(jsonDecode(result)['age']);
+  // }
 
   //업로드 데이터, 데이터 맨앞단으로 들어오게.
   addMyData() {
@@ -101,7 +95,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     initNotification(context);
-    savaData();
+    // savaData();
     getData();
   }
 

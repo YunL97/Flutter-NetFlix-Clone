@@ -75,39 +75,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-//state보관함: provider
-class Store1 extends ChangeNotifier {
-  var name = 'john kim';
-  var follower = 0;
-  var followerbutton = false;
-  var profileImage = [];
-  notifyListeners();
-  
-  
-  getData() async{
-    var result = await http.get(Uri.parse('https://codingapple1.github.io/app/profile.json'));
-    var result2 = jsonDecode(result.body);
-    profileImage = result2;
-    notifyListeners();
-  }
-  
-  ChangeName() {
-    name = 'john park';
-    
-    //재렌더링
-    notifyListeners();
-  }
-  ClickFollowerButton() {
-    if (followerbutton == false){
-      ++follower;
-      followerbutton = true;
-    }else {
-      --follower;
-      followerbutton = false;
-    }
-    notifyListeners();
-  }
-}
+
 
 class Store2 extends ChangeNotifier {
 
