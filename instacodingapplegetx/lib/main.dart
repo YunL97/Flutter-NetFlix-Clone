@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:instacodingapple/notification.dart';
 import 'package:instacodingapple/shop.dart';
-import 'package:instacodingapple/style.dart' as style;
+import 'package:instacodingapple/style/style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'package:instacodingapple/upload.dart';
 import 'dart:convert';
@@ -32,10 +33,15 @@ void main()  async{
           ChangeNotifierProvider(create: (c) => Store1()),
           ChangeNotifierProvider(create: (c) => Store2()),
         ],
-          child: MaterialApp(
+          child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: style.theme,
-            home: MyApp(),
+            initialRoute: '/',
+            getPages: [
+              GetPage(name: '/', page: () => MyApp()),
+              // GetPage(name: 'home', page: () => MyApp()),
+              // GetPage(name: '', page: () => MyApp()),
+          ],
           ),
         ),
       );
@@ -136,14 +142,17 @@ class _MyAppState extends State<MyApp> {
         actions: [
           IconButton(icon: Icon(Icons.add_box_outlined),
             onPressed: () async{
+
             //선택화면 띄우는법법
            var picker = ImagePicker();
             var image = await picker.pickImage(source: ImageSource.gallery);
-
+            print("aasdasdkqwhdkwqd");
             if (image != null) {
               setState(() {
                 userImage = File(image.path);
               });
+            }else {
+              return Get.toNamed('/');
             }
             //파일경로로 이미지 띄우는법
             // Image.file(userImage);
