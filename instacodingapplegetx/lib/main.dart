@@ -2,10 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instacodingapple/notification.dart';
-import 'package:instacodingapple/shop.dart';
+import 'package:instacodingapple/pages/profile.dart';
+import 'package:instacodingapple/pages/shop.dart';
 import 'package:instacodingapple/style/style.dart' as style;
 import 'package:http/http.dart' as http;
-import 'package:instacodingapple/upload.dart';
+import 'package:instacodingapple/pages/upload.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'firebase_options.dart';
-import 'home.dart';
+import 'pages/home.dart';
 
 
 void main()  async{
@@ -39,8 +40,8 @@ void main()  async{
             initialRoute: '/',
             getPages: [
               GetPage(name: '/', page: () => MyApp()),
-              // GetPage(name: 'home', page: () => MyApp()),
-              // GetPage(name: '', page: () => MyApp()),
+              GetPage(name: '/upload', page: () => Upload()),
+              GetPage(name: '/profile', page: () => Profile()),
           ],
           ),
         ),
@@ -157,16 +158,12 @@ class _MyAppState extends State<MyApp> {
             //파일경로로 이미지 띄우는법
             // Image.file(userImage);
 
-            //MaterialApp이 들어있는 context를 넣어야함
-              Navigator.push(context,
-                  //                context: 중간에 context를 하나 만들어주는 기능
-                  //  ((context) => Upload) 리턴과 중괄호 생략
-                  MaterialPageRoute(builder: (context) {
-                    return Upload(userImage: userImage,
-                        setUserContent: setUserContent,
-                        addMyData: addMyData);
-                  })
-              );
+            return Get.toNamed('/upload', arguments: {
+              'userImage':userImage,
+              'setUserContent':setUserContent,
+              'addMyData':addMyData,
+            });
+              
             },
             iconSize: 30,
           ),
