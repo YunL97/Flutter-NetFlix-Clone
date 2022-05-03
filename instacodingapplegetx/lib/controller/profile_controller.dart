@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,7 @@ import 'package:http/http.dart' as http;
 class ProfileController extends GetxController {
 
   RxInt count = 0.obs;
+  RxInt grid = 2.obs;
   RxString name = 'john lee'.obs;
   RxInt follower = 0.obs;
   RxBool followerbutton = false.obs;
@@ -17,7 +19,8 @@ class ProfileController extends GetxController {
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/profile.json'));
     var result2 = jsonDecode(result.body);
     profileImage(result2);
-    print(result2);
+    count(profileImage.length);
+    update();
   }
 
   void ChangeName() {
@@ -34,6 +37,7 @@ class ProfileController extends GetxController {
   }
 
   int ProfileImagelength() {
+    print("프로필이미지 길이 ${profileImage.length}");
     return profileImage.length;
 }
 
@@ -43,7 +47,7 @@ class ProfileController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    ever(profileImage,(_) => count(profileImage.length));
+
   }
 
 }

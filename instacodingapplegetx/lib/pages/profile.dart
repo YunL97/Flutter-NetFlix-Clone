@@ -9,7 +9,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var count = 0;
     Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(title:
@@ -26,23 +25,20 @@ class Profile extends StatelessWidget {
           SliverToBoxAdapter(
             child: ProfileHeader(),
           ),
-          SliverGrid(
+    GetX<ProfileController>(
+    builder: (_){return SliverGrid(
             delegate: SliverChildBuilderDelegate(
                     (c,i) => Container(
-                    child:GetX<ProfileController>(
-                            builder: (_){
-                              count = _.profileImage.length;
-                              print(count);
-                            return Image.network(_.profileImage[i]);
-                              }),
+                    child: Image.network(_.profileImage[i]),
+
                     // Image.network(context.watch<Store1>().profileImage[i])),
             ),
-                 childCount:
-              // Get.find<ProfileController>().ProfileImagelength(),
+                 childCount: _.count.value ?? 0,
                 // context.watch<Store1>().profileImage.length),
             )
-            ,gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          )
+            ,gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: _.grid.value),
+          );
+      }),
         ],
       ),
     );
