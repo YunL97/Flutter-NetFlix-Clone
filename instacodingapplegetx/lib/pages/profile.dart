@@ -33,7 +33,7 @@ class Profile extends StatelessWidget {
 
                     // Image.network(context.watch<Store1>().profileImage[i])),
             ),
-                 childCount: _.count.value ?? 0,
+                 childCount: (_.count.value ?? 0),
                 // context.watch<Store1>().profileImage.length),
             )
             ,gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: _.grid.value),

@@ -55,19 +55,6 @@ class _MyAppState extends State<MyApp> {
   var userImage;
   var userContent;
 
-  // //핸드폰에 데이터 저장
-  // savaData() async {
-  //   var storage = await SharedPreferences.getInstance();
-  //
-  //   //json으로 저장하는법
-  //   var map = {'age': 20};
-  //   storage.setString('map', jsonEncode(map));
-  //   // print(map);  //{age: 20}
-  //   // print(jsonEncode(map)); //{"age":20}
-  //   var result = storage.getString('map') ?? "데이터 없음";
-  //   print(jsonDecode(result)['age']);
-  // }
-
   //업로드 데이터, 데이터 맨앞단으로 들어오게.
   addMyData() {
     var myData = {
@@ -129,9 +116,6 @@ class _MyAppState extends State<MyApp> {
     MediaQuery.of(context).size.width;
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton(child: Text('+'), onPressed: (){
-          showNotification2();
-        },),
       appBar: AppBar(
         title: Text('Instagram'),
         actions: [

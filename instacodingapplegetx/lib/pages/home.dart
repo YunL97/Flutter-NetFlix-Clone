@@ -6,16 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   Home({Key? key , this.data,required this.addData}) : super(key: key);
   final data;
   final addData;
-  
-  @override
-  State<Home> createState() => _HomeState();
-}
 
-class _HomeState extends State<Home> {
+
+
   //스크롤 관련 데이터들 바로바로 저장됨
   var scroll = ScrollController();
 
@@ -37,33 +34,33 @@ class _HomeState extends State<Home> {
   getMore() async {
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/more1.json'));
     var result2 = jsonDecode(result.body);
-    widget.addData(result2);
+    addData(result2);
     print("aa");
   }
 
   @override
   Widget build(BuildContext context) {
 
-    if (widget.data.isNotEmpty) {
+    if (data.isNotEmpty) {
       return Container(
           child: ListView.builder(
             controller: scroll,
-            itemCount: widget.data.length,
+            itemCount: data.length,
             itemBuilder: (context, i) {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Image(image: AssetImage("assets/images/download.jpg"), fit: BoxFit.fitWidth),
-                    widget.data[i]['image'].runtimeType == String ? Image.network(widget.data[i]['image']) : Image.file(widget.data[i]['image']),
+                    data[i]['image'].runtimeType == String ? Image.network(data[i]['image']) : Image.file(data[i]['image']),
                     GestureDetector(
-                      child: Text(widget.data[i]['user']),
+                      child: Text(data[i]['user']),
                       onTap: () {
                        Get.toNamed('/profile');
                       },
                     )
                     ,
-                    Text(widget.data[i]['likes'].toString()),
-                    Text(widget.data[i]['content'])
+                    Text(data[i]['likes'].toString()),
+                    Text(data[i]['content'])
                   ]
               );
               print("a");
