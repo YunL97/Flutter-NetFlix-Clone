@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instacodingapple/controller/data_list_controller.dart';
 import 'package:instacodingapple/notification.dart';
 import 'package:instacodingapple/pages/profile.dart';
 import 'package:instacodingapple/pages/shop.dart';
@@ -13,13 +14,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
+import 'controller/tab_controller.dart';
 import 'firebase_options.dart';
 import 'pages/home.dart';
 
-
-void main()  async{
-
+void main() async {
   //파이어베이스 연동 코드
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -28,90 +27,45 @@ void main()  async{
 
   runApp(
     //MaterialApp 자식 위젯들은 전부 Store1에 있던 state 사용가능
-          GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: style.theme,
-            initialRoute: '/',
-            getPages: [
-              GetPage(name: '/', page: () => MyApp()),
-              GetPage(name: '/upload', page: () => Upload()),
-              GetPage(name: '/profile', page: () => Profile()),
-          ],
-          ),
-        );
-
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: style.theme,
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => MyApp()),
+        GetPage(name: '/upload', page: () => Upload()),
+        GetPage(name: '/profile', page: () => Profile()),
+      ],
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   var tab = 0;
   var data = [];
   var userImage;
   var userContent;
 
-  //업로드 데이터, 데이터 맨앞단으로 들어오게.
-  addMyData() {
-    var myData = {
-      'id': data.length,
-      'image': userImage,
-      'like':5,
-      'date': 'July 25',
-      'content': '등을대라',
-      'liked': false,
-      'user': 'lee',
-    };
-    setState(() {
-      data.insert(0, myData);
-    });
-  }
+  // @override
+  // void initState() {
+  // // TODO: implement initState
+  // super.initState();
+  // initNotification(context);
+  // // savaData();
+  // getData();
+  // }
 
-  setUserContent(a) {
-    setState(() {
-      userContent = a;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initNotification(context);
-    // savaData();
-    getData();
-  }
-
-  addData(a) {
-    setState(() {
-      data.add(a);
-    });
-  }
-
-  getData() async {
-    var result = await http.get( Uri.parse('https://codingapple1.github.io/app/data.json') );
-    if (result.statusCode == 200) {
-
-    }else {
-
-    }
-    var result2 = jsonDecode(result.body);
-    // print(result2[0]['likes']);
-    setState(() {
-      data = result2;
-    });
-
-    // print(result2[0]);
-  }
-
+  // addData(a) {
+  // setState(() {
+  // data.add(a);
+  // });
+  // }
 
   @override
   Widget build(BuildContext context) {
-
+    Get.put(BottomTabController());
     //반응형 디자인 현재 페이지의 가로를 알려주는 코드
     MediaQuery.of(context).size.width;
 
@@ -119,73 +73,65 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: Text('Instagram'),
         actions: [
-          IconButton(icon: Icon(Icons.add_box_outlined),
-            onPressed: () async{
+          IconButton(
+            icon: Icon(Icons.add_box_outlined),
+            onPressed: () async {
+              //선택화면 띄우는법법
+              var picker = ImagePicker();
+              var image = await picker.pickImage(source: ImageSource.gallery);
+              if (image != null) {
+                // setState(() {
+                // userImage = File(image.path);
+                // });
+              } else {
+                return Get.toNamed('/');
+              }
+              //파일경로로 이미지 띄우는법
+              // Image.file(userImage);
 
-            //선택화면 띄우는법법
-           var picker = ImagePicker();
-            var image = await picker.pickImage(source: ImageSource.gallery);
-            print("aasdasdkqwhdkwqd");
-            if (image != null) {
-              setState(() {
-                userImage = File(image.path);
-              });
-            }else {
-              return Get.toNamed('/');
-            }
-            //파일경로로 이미지 띄우는법
-            // Image.file(userImage);
-
-            return Get.toNamed('/upload', arguments: {
-              'userImage':userImage,
-              'setUserContent':setUserContent,
-              'addMyData':addMyData,
-            });
-              
+              return Get.toNamed('/upload');
             },
             iconSize: 30,
           ),
-          Text("da", style: TextStyle(color: Colors.white),)
+          Text(
+            "da",
+            style: TextStyle(color: Colors.white),
+          )
         ],
       ),
       // 원하는 ThemeData안의 내용을 불러옴
-      body: [
-        Home(data: data, addData: addData,),
-        Shop()
-      ][tab],
-          
-      // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
-      bottomNavigationBar: BottomNavigationBar(
-        // showSelectedLabels: false,
-        // showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black.withOpacity(.60),
-        currentIndex: tab,
-        onTap: (i){
-          if (i == 0) {
-            setState(() {
-              tab =0;
+      body: GetX<BottomTabController>(builder: (_) {return [Home(), Shop()][_.tab.value];}),
 
-            });
-          }else {
-            setState(() {
-              tab =1;
-            });
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-              label:  "홈",
-            icon:Icon(Icons.home_outlined,)
-          ),
-          BottomNavigationBarItem(
-              label:  "샵",
-              icon:Icon(Icons.shopping_bag_outlined)
-          ),
-        ],
-      ),
+
+      // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
+      bottomNavigationBar: GetX<BottomTabController>(builder: (_) {
+        return BottomNavigationBar(
+          // showSelectedLabels: false,
+          // showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.black.withOpacity(.60),
+          currentIndex: _.tab.value,
+          onTap: (i) {
+            if (i == 0) {
+              _.tab.value = 0;
+            } else {
+              _.tab.value = 1;
+              print("asd");
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+                label: "홈",
+                icon: Icon(
+                  Icons.home_outlined,
+                )),
+            BottomNavigationBarItem(
+                label: "샵", icon: Icon(Icons.shopping_bag_outlined)),
+          ],
+        );
+      }),
     );
   }
 }

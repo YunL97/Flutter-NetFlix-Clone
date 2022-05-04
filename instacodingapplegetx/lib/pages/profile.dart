@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instacodingapple/controller/profile_controller.dart';
 import 'package:provider/provider.dart';
-import 'home.dart';
+// import 'home.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
