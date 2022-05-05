@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instacodingapple/binding/binding.dart';
 import 'package:instacodingapple/controller/data_list_controller.dart';
 import 'package:instacodingapple/notification.dart';
 import 'package:instacodingapple/pages/profile.dart';
@@ -32,9 +33,9 @@ void main() async {
       theme: style.theme,
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => MyApp()),
-        GetPage(name: '/upload', page: () => Upload()),
-        GetPage(name: '/profile', page: () => Profile()),
+        GetPage(name: '/', page: () => MyApp(), binding: Binding()),
+        GetPage(name: '/upload', page: () => Upload(), binding: Binding()),
+        GetPage(name: '/profile', page: () => Profile(), binding: Binding()),
       ],
     ),
   );
@@ -43,29 +44,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  var tab = 0;
-  var data = [];
-  var userImage;
-  var userContent;
-
-  // @override
-  // void initState() {
-  // // TODO: implement initState
-  // super.initState();
-  // initNotification(context);
-  // // savaData();
-  // getData();
-  // }
-
-  // addData(a) {
-  // setState(() {
-  // data.add(a);
-  // });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    Get.put(BottomTabController());
+    // Get.put(BottomTabController());
     //반응형 디자인 현재 페이지의 가로를 알려주는 코드
     MediaQuery.of(context).size.width;
 
@@ -83,6 +64,7 @@ class MyApp extends StatelessWidget {
                 // setState(() {
                 // userImage = File(image.path);
                 // });
+                Get.find<ListController>().userImage = File(image.path);
               } else {
                 return Get.toNamed('/');
               }
@@ -100,8 +82,9 @@ class MyApp extends StatelessWidget {
         ],
       ),
       // 원하는 ThemeData안의 내용을 불러옴
-      body: GetX<BottomTabController>(builder: (_) {return [Home(), Shop()][_.tab.value];}),
-
+      body: GetX<BottomTabController>(builder: (_) {
+        return [Home(), Shop()][_.tab.value];
+      }),
 
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
       bottomNavigationBar: GetX<BottomTabController>(builder: (_) {
