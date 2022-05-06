@@ -28,11 +28,8 @@ class Profile extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (c, i) => Container(
                   child: Image.network(_.profileImage[i]),
-
-                  // Image.network(context.watch<Store1>().profileImage[i])),
                 ),
                 childCount: (_.count.value ?? 0),
-                // context.watch<Store1>().profileImage.length),
               ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: _.grid.value),
@@ -55,19 +52,15 @@ class ProfileHeader extends StatelessWidget {
       children: [
         ElevatedButton(
             onPressed: () {
-              // context.read<Store1>().ChangeName();
               Get.find<ProfileController>().ChangeName();
             },
             child: Text('버튼')),
-        // Text("${context.watch<Store1>().follower}"),
         ElevatedButton(
             onPressed: () {
-              // context.read<Store1>().ClickFollowerButton();
             },
             child: Text("팔로우")),
         ElevatedButton(
             onPressed: () {
-              // context.read<Store1>().getData();
               Get.find<ProfileController>().getData();
             },
             child: Text("사진 가져오기")),

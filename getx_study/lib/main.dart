@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/binding", page: () => BindingPage(),
             binding: BindingPageBinding(),
             transition: Transition.circularReveal)
-
       ],
     );
   }

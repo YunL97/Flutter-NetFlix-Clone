@@ -33,9 +33,9 @@ void main() async {
       theme: style.theme,
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => MyApp(), binding: Binding()),
-        GetPage(name: '/upload', page: () => Upload(), binding: Binding()),
-        GetPage(name: '/profile', page: () => Profile(), binding: Binding()),
+        GetPage(name: '/', page: () => MyApp(),binding: BindingPages()),
+        GetPage(name: '/upload', page: () => Upload(),binding: BindingPages(), transition: Transition.circularReveal),
+        GetPage(name: '/profile', page: () => Profile(),binding: BindingPages() ),
       ],
     ),
   );
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(BottomTabController());
     //반응형 디자인 현재 페이지의 가로를 알려주는 코드
     MediaQuery.of(context).size.width;
 
@@ -61,16 +60,10 @@ class MyApp extends StatelessWidget {
               var picker = ImagePicker();
               var image = await picker.pickImage(source: ImageSource.gallery);
               if (image != null) {
-                // setState(() {
-                // userImage = File(image.path);
-                // });
                 Get.find<ListController>().userImage = File(image.path);
               } else {
                 return Get.toNamed('/');
               }
-              //파일경로로 이미지 띄우는법
-              // Image.file(userImage);
-
               return Get.toNamed('/upload');
             },
             iconSize: 30,
@@ -83,7 +76,9 @@ class MyApp extends StatelessWidget {
       ),
       // 원하는 ThemeData안의 내용을 불러옴
       body: GetX<BottomTabController>(builder: (_) {
-        return [Home(), Shop()][_.tab.value];
+        return [
+          Home(), Shop()]
+        [_.tab.value];
       }),
 
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),

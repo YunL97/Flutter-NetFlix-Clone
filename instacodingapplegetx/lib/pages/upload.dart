@@ -6,9 +6,6 @@ class Upload extends StatelessWidget {
   const Upload({
     Key? key,
   }) : super(key: key);
-  // final userImage;
-  // final setUserContent;
-  // final addMyData;
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +18,16 @@ class Upload extends StatelessWidget {
           width: double.infinity,
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.center,
+
               children: [
                 Image.file(Get.find<ListController>().userImage, height: 300),
                 Text("이미지 업로드 화면"),
                 TextField(
                   onChanged: (text) {
-                    // Get.arguments['setUserContent'](text);
                   },
                 ),
                 IconButton(
                     onPressed: () {
-                      // Get.arguments['addMyData']();
                       Get.find<ListController>().addMyData();
                       Navigator.pop(context);
                     },
