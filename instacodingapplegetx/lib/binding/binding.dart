@@ -8,11 +8,9 @@ class BindingPages implements Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.put<ListController>(
-        ListController());
+    Get.put<ListController>(ListController());
     // Get.put(ProfileController());
-    Get.put(BottomTabController());
+    Get.put(BottomTabController(), permanent: false);
     Get.lazyPut(() => ProfileController());
   }
 }
-

@@ -81,6 +81,10 @@ class MyApp extends StatelessWidget {
         [_.tab.value];
       }),
 
+
+
+
+
       // Text("안녕하세요", style: Theme.of(context).textTheme.bodyText2,),
       bottomNavigationBar: GetX<BottomTabController>(builder: (_) {
         return BottomNavigationBar(

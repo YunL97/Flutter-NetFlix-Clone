@@ -30,6 +30,7 @@ class Upload extends StatelessWidget {
                     onPressed: () {
                       Get.find<ListController>().addMyData();
                       Navigator.pop(context);
+                      Get.off
                     },
                     icon: Icon(Icons.add_box_outlined))
               ],
