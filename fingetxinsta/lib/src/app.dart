@@ -1,5 +1,6 @@
 import 'package:fingetxinsta/components/image_data.dart';
 import 'package:fingetxinsta/controller/bottom_nav_controller.dart';
+import 'package:fingetxinsta/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +13,10 @@ class App extends GetView<BottomNavController> {
     return WillPopScope(
         child: Obx(
           () => Scaffold(
-            appBar: AppBar(),
             body: IndexedStack(
               index: controller.pageIndex.value,
               children: [
-                Container(child: Center(child: Text('HOME'))),
+                const Home(),
                 Container(child: Center(child: Text('SEARCH'))),
                 Container(child: Center(child: Text('UPLOAD'))),
                 Container(child: Center(child: Text('ACTIVITY'))),
