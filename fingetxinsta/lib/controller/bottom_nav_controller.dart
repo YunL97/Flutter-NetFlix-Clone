@@ -9,6 +9,8 @@ import '../pages/upload.dart';
 enum PageName { HOME, SEARCH, UPLOAD, ACTIVITY, MYPAGE }
 
 class BottomNavController extends GetxController {
+  static BottomNavController get to => Get.find();
+  GlobalKey<NavigatorState> searchNaviationKey = GlobalKey<NavigatorState>();
   RxInt pageIndex = 0.obs;
   List<int> bottomHistory = [0];
 
@@ -52,6 +54,13 @@ class BottomNavController extends GetxController {
       print('exit');
       return true;
     } else {
+      //search focue 에 들어갔을 때 pop해서 뒤로가기
+      var page = PageName.values[bottomHistory.last];
+      if (page == PageName.SEARCH) {
+        var value = await searchNaviationKey.currentState!.maybePop();
+        if (value) return false;
+      }
+
       print('goto before page');
       bottomHistory.removeLast();
       var index = bottomHistory.last;

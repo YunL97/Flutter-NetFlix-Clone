@@ -4,6 +4,8 @@ import 'package:fingetxinsta/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../pages/search.dart';
+
 //class 내에서 나오는 controller 는 모두 bottomNavController 이라고 알려주는것
 class App extends GetView<BottomNavController> {
   const App({Key? key}) : super(key: key);
@@ -17,7 +19,13 @@ class App extends GetView<BottomNavController> {
               index: controller.pageIndex.value,
               children: [
                 const Home(),
-                Container(child: Center(child: Text('SEARCH'))),
+                Navigator(
+                  key: controller.searchNaviationKey,
+                  onGenerateRoute: (routeSetting) {
+                    return MaterialPageRoute(
+                        builder: (context) => const Search());
+                  },
+                ),
                 Container(child: Center(child: Text('UPLOAD'))),
                 Container(child: Center(child: Text('ACTIVITY'))),
                 Container(child: Center(child: Text('MYPAGE'))),

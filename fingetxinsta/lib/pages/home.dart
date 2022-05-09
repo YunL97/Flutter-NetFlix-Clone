@@ -1,4 +1,5 @@
 import 'package:fingetxinsta/components/image_data.dart';
+import 'package:fingetxinsta/components/post_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../components/avatar_widget.dart';
@@ -6,13 +7,56 @@ import '../components/avatar_widget.dart';
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
+  Widget _myStory() {
+    return Stack(
+      children: [
+        AvatarWidget(
+            thumbPath:
+                'http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg',
+            size: 70,
+            type: AvatarType.TYPE2),
+        Positioned(
+            right: 10,
+            bottom: 10,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                  border: Border.all(color: Colors.white)),
+              child: const Center(
+                child: Text(
+                  '+',
+                  style:
+                      TextStyle(fontSize: 20, color: Colors.white, height: 1.1),
+                ),
+              ),
+            ))
+      ],
+    );
+  }
+
   Widget _storyBoardList() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(100,
-            (index) => AvatarWidget(thumbPath: '', type: AvatarType.TYPE1)),
+        children: [
+          _myStory(),
+          ...List.generate(
+              100,
+              (index) => AvatarWidget(
+                  thumbPath:
+                      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
+                  type: AvatarType.TYPE1)),
+        ],
       ),
+    );
+  }
+
+  Widget _postList() {
+    return Column(
+      children: List.generate(50, (index) => PostWidget()).toList(),
     );
   }
 
@@ -27,7 +71,9 @@ class Home extends StatelessWidget {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              print("aaa");
+            },
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: ImageData(
@@ -39,9 +85,7 @@ class Home extends StatelessWidget {
         ],
       ),
       body: ListView(
-        children: [
-          _storyBoardList(),
-        ],
+        children: [_storyBoardList(), _postList()],
       ),
     );
   }
