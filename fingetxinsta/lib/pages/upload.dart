@@ -1,14 +1,67 @@
 import 'package:fingetxinsta/components/image_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:photo_manager/photo_manager.dart';
 
-class Upload extends StatelessWidget {
+
+class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
+
+  @override
+  State<Upload> createState() => _UploadState();
+}
+
+class _UploadState extends State<Upload> {
+  var albums = <AssetPathEntity>[];
+  var headerTitle = '';
+  var imageList = <AssetEntity>[];
+  @override
+  void initState() {
+    super.initState();
+    _loadPhotos();
+  }
+
+  //갤러리 안에있는 데이터 가져오기
+  void _loadPhotos() async {
+    print("asd");
+    var result = await PhotoManager.requestPermissionExtend();
+    print("asd");
+    if (result.isAuth) {
+      albums = await PhotoManager.getAssetPathList(
+        type: RequestType.image,
+        filterOption: FilterOptionGroup(
+          imageOption: const FilterOption(
+            sizeConstraint: SizeConstraint(minWidth: 100, minHeight: 100),
+          ),
+          orders: [
+            const OrderOption(type: OrderOptionType.createDate, asc: false),
+          ],
+        ),
+      );
+      _loadData();
+    } else {
+      //message 권한 요청
+    }
+  }
+
+  void _loadData() async {
+    headerTitle = albums.first.name;
+    await _pagingPhotos();
+    update();
+  }
+
+  Future _pagingPhotos() async {
+    var photo = await albums.first.getAssetListPaged(page: 0, size: 30);
+    imageList.addAll(photo);
+  }
+
+  //??
+  void update() => setState(() {});
 
   Widget _imagePreview() {
     return Container(
-      width: Get.width,
-      height: Get.width,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width,
       color: Colors.grey,
     );
   }
@@ -24,7 +77,7 @@ class Upload extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  '갤러리',
+                  headerTitle,
                   style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
                 Icon(Icons.arrow_drop_down),
@@ -83,12 +136,14 @@ class Upload extends StatelessWidget {
             mainAxisSpacing: 1,
             crossAxisSpacing: 1,
             childAspectRatio: 1),
-        itemCount: 100,
+        itemCount: imageList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            color: Colors.red,
-          );
+          return _photoWidget(imageList[index]);
         });
+  }
+
+  Widget _photoWidget(AssetEntity asset) {
+    asset.thumbnailDataWithSize([200,200])
   }
 
   @override
