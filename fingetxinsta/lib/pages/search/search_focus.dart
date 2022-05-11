@@ -3,6 +3,7 @@ import 'package:fingetxinsta/controller/bottom_nav_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+//서치바 검색 눌렀을 때 나오는 화면
 class SearchFocus extends StatefulWidget {
   SearchFocus({Key? key}) : super(key: key);
 

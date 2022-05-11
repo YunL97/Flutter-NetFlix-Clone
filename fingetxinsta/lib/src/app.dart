@@ -4,6 +4,7 @@ import 'package:fingetxinsta/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../pages/active_history.dart';
 import '../pages/search.dart';
 
 //class 내에서 나오는 controller 는 모두 bottomNavController 이라고 알려주는것
@@ -26,8 +27,9 @@ class App extends GetView<BottomNavController> {
                         builder: (context) => const Search());
                   },
                 ),
-                Container(child: Center(child: Text('UPLOAD'))),
-                Container(child: Center(child: Text('ACTIVITY'))),
+                Container(),
+                // Container(child: Center(child: Text('ACTIVITY'))),
+                ActiveHistory(),
                 Container(child: Center(child: Text('MYPAGE'))),
               ],
             ),
