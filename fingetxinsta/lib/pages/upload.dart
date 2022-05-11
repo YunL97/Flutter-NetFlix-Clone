@@ -1,8 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:fingetxinsta/components/image_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
-
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _UploadState extends State<Upload> {
   var albums = <AssetPathEntity>[];
   var headerTitle = '';
   var imageList = <AssetEntity>[];
+  AssetEntity? selectedImage;
   @override
   void initState() {
     super.initState();
@@ -53,16 +55,33 @@ class _UploadState extends State<Upload> {
   Future _pagingPhotos() async {
     var photo = await albums.first.getAssetListPaged(page: 0, size: 30);
     imageList.addAll(photo);
+    selectedImage = imageList.first;
   }
 
   //??
   void update() => setState(() {});
 
   Widget _imagePreview() {
+    var width = MediaQuery.of(context).size.width;
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width,
+      width: width,
+      height: width,
       color: Colors.grey,
+      child: selectedImage == null
+          ? Container()
+          : FutureBuilder(
+              future: selectedImage!.thumbnailDataWithSize(
+                  ThumbnailSize(width.toInt(), width.toInt())),
+              builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
+                if (snapshot.hasData) {
+                  return Image.memory(
+                    snapshot.data!,
+                    fit: BoxFit.cover,
+                  );
+                } else {
+                  return Container();
+                }
+              }),
     );
   }
 
@@ -72,16 +91,64 @@ class _UploadState extends State<Upload> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              children: [
-                Text(
-                  headerTitle,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                ),
-                Icon(Icons.arrow_drop_down),
-              ],
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+
+                  //끝가지 올라감
+                  isScrollControlled: albums.length > 10 ? true : false,
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.top),
+                  builder: (_) => Container(
+                        height: albums.length * 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Center(
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 7),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black54,
+                                ),
+                                width: 40,
+                                height: 4,
+                              ),
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                children: List.generate(
+                                    // albums.length,
+                                    albums.length,
+                                    (index) => Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 20),
+                                          child: Text(albums[index].name),
+                                        )),
+                              )),
+                            )
+                          ],
+                        ),
+                      ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Text(
+                    headerTitle,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                  Icon(Icons.arrow_drop_down),
+                ],
+              ),
             ),
           ),
           Row(
@@ -138,12 +205,35 @@ class _UploadState extends State<Upload> {
             childAspectRatio: 1),
         itemCount: imageList.length,
         itemBuilder: (BuildContext context, int index) {
-          return _photoWidget(imageList[index]);
+          return _photoWidget(imageList[index], index: index);
         });
   }
 
-  Widget _photoWidget(AssetEntity asset) {
-    asset.thumbnailDataWithSize([200,200])
+  Widget _photoWidget(AssetEntity asset, {int index = 0}) {
+    //futurebuilder: 데이터를 다받기전에 데이터가 없이 그릴 수 없는 부분을 먼저 그려주기 위해서 사용
+    //futurebuilder이 없으면 데이터가 다 받아지기를 기다릴 후 화면ㅇ르 그리거나 데이터가 변함을 setState()를 통해 바꿔주어야한다.
+    //builder부분이 실행되고 끝나면 future부분이 실행된다.
+    return FutureBuilder(
+        future: asset.thumbnailDataWithSize(ThumbnailSize(200, 200)),
+        builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
+          if (snapshot.hasData) {
+            return GestureDetector(
+              onTap: () {
+                selectedImage = imageList[index];
+                update();
+              },
+              child: Opacity(
+                opacity: asset == selectedImage ? 0.3 : 1,
+                child: Image.memory(
+                  snapshot.data!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 
   @override
@@ -153,7 +243,7 @@ class _UploadState extends State<Upload> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: GestureDetector(
-          onTap: () {},
+          onTap: Get.back,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: ImageData(IconsPath.closeImage),
