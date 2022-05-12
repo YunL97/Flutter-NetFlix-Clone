@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "309406692246",
+    "project_id": "instagram-clone-applee",
+    "storage_bucket": "instagram-clone-applee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309406692246:android:bd6268347640bc6eff63b7",
+        "android_client_info": {
+          "package_name": "com.example.fingetxinsta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309406692246-34spikibvf145hgh6gu4l6rq4t11p7ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD25xD9EIMGbb-0B1_crQu9_vxuTdWPqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309406692246-34spikibvf145hgh6gu4l6rq4t11p7ro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

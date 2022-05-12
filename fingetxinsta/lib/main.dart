@@ -1,10 +1,18 @@
+import 'package:fingetxinsta/Root.dart';
+import 'package:fingetxinsta/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'binding/init_bindings.dart';
 import 'src/app.dart';
 
-void main() {
+void main() async {
+  //이니셜해주는것
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //파이어베이스 셋팅
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -24,7 +32,7 @@ class MyApp extends StatelessWidget {
         titleTextStyle: TextStyle(color: Colors.black),
       )),
       initialBinding: InitBinding(),
-      home: const App(),
+      home: const Root(),
     );
   }
 }
