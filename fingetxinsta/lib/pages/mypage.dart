@@ -1,23 +1,13 @@
 import 'package:fingetxinsta/components/avatar_widget.dart';
 import 'package:fingetxinsta/components/image_data.dart';
 import 'package:fingetxinsta/components/user_card.dart';
+import 'package:fingetxinsta/controller/auth_controller.dart';
+import 'package:fingetxinsta/controller/mypage_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MyPage extends StatefulWidget {
+class MyPage extends GetView<MyPageController> {
   const MyPage({Key? key}) : super(key: key);
-
-  @override
-  State<MyPage> createState() => _MyPageState();
-}
-
-class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
-  late TabController tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 2, vsync: this);
-  }
 
   Widget _statisticsOne(String title, int value) {
     return Column(
@@ -148,7 +138,7 @@ class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
 
   Widget _tabMenu() {
     return TabBar(
-        controller: tabController,
+        controller: controller.tabController,
         indicatorColor: Colors.black,
         indicatorWeight: 1,
         tabs: [
@@ -186,8 +176,8 @@ class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          '이윤식',
+        title: Text(
+          AuthController.to.user.value.nickname!,
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
         ),

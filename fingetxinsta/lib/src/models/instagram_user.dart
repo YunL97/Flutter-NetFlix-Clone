@@ -28,4 +28,14 @@ class IUser {
       'description': description,
     };
   }
+
+  IUser copyWith(
+      {String? uid, String? nickname, String? thumbnail, String? description}) {
+    return IUser(
+      uid: uid ?? this.uid,
+      nickname: nickname ?? this.nickname,
+      thumbnail: thumbnail ?? this.thumbnail,
+      description: description ?? this.description,
+    );
+  }
 }
