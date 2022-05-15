@@ -17,7 +17,9 @@ class MyPageController extends GetxController with GetTickerProviderStateMixin {
   void setTargetUser() {
     var uid = Get.parameters['targetUid'];
     if (uid == null) {
-      AuthController.to.user.value;
+      targetUser(AuthController.to.user.value);
+    }else {
+      //싱데 uid로 users collection 조회
     }
   }
 
