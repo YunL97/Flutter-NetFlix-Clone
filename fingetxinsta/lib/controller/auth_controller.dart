@@ -16,8 +16,10 @@ class AuthController extends GetxController {
     //DB 조회
     var userData = await UserRepository.loginUserByUid(uid);
     if (userData != null) {
-      InitBinding.additionalBinding();
+      //db 조회할 때 인스턴스가 메모리에 올라감
+      //데이터에 넣기전에 바인딩하면 데이터가 올라가지 않음
       user(userData);
+      InitBinding.additionalBinding();
     }
     return userData;
   }

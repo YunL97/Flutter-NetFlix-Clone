@@ -17,8 +17,10 @@ class MyPageController extends GetxController with GetTickerProviderStateMixin {
   void setTargetUser() {
     var uid = Get.parameters['targetUid'];
     if (uid == null) {
+      //여기서 user데이터를 넣기전에 바인딩하기때문에 null이 된다.
+      //그래서  authcontroller에서 user(userdata)를 먼저해줘야한다.
       targetUser(AuthController.to.user.value);
-    }else {
+    } else {
       //싱데 uid로 users collection 조회
     }
   }

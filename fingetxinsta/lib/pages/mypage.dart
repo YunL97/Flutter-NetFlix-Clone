@@ -31,38 +31,39 @@ class MyPage extends GetView<MyPageController> {
   Widget _infomation() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AvatarWidget(
-                thumbPath:
-                    'http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg',
-                type: AvatarType.TYPE3,
-                size: 80,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(child: _statisticsOne('Post', 15)),
-                    Expanded(child: _statisticsOne('Followers', 11)),
-                    Expanded(child: _statisticsOne('Following', 3)),
-                  ],
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AvatarWidget(
+                  thumbPath: controller.targetUser.value.thumbnail!,
+                  type: AvatarType.TYPE3,
+                  size: 80,
                 ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            '안녕하세요 이윤식입니다',
-            style: TextStyle(fontSize: 13, color: Colors.black),
-          )
-        ],
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(child: _statisticsOne('Post', 15)),
+                      Expanded(child: _statisticsOne('Followers', 11)),
+                      Expanded(child: _statisticsOne('Following', 3)),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              controller.targetUser.value.description!,
+              style: TextStyle(fontSize: 13, color: Colors.black),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -176,10 +177,12 @@ class MyPage extends GetView<MyPageController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          AuthController.to.user.value.nickname!,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        title: Obx(
+          () => Text(
+            controller.targetUser.value.nickname!,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          ),
         ),
         actions: [
           GestureDetector(
