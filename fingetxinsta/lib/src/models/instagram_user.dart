@@ -3,6 +3,7 @@ class IUser {
   String? nickname;
   String? description;
   String? thumbnail;
+
   IUser({
     this.uid,
     this.nickname,
@@ -29,6 +30,7 @@ class IUser {
     };
   }
 
+  //mutating 방지하기위한 카피
   IUser copyWith(
       {String? uid, String? nickname, String? thumbnail, String? description}) {
     return IUser(

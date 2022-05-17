@@ -17,10 +17,11 @@ class UploadDescription extends GetView<UploadController> {
             height: 60,
             child: Image.file(controller.filteredImage!, fit: BoxFit.cover),
           ),
-          const Expanded(
+          Expanded(
               child: TextField(
+            controller: controller.textEditingController,
             maxLines: null,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -128,7 +129,9 @@ class UploadDescription extends GetView<UploadController> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              controller.uploadPost();
+            },
             child: Padding(
               padding: EdgeInsets.all(15),
               child: ImageData(

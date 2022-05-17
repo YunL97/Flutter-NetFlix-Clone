@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'binding/init_bindings.dart';
 import 'src/app.dart';
 
-//35:36
+//20:12
 void main() async {
   //이니셜해주는것
   WidgetsFlutterBinding.ensureInitialized();

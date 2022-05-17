@@ -1,28 +1,36 @@
 import 'dart:io';
 
+import 'package:fingetxinsta/src/models/post.dart';
+import 'package:fingetxinsta/src/utils/data_util.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:path/path.dart';
 import 'package:photofilters/photofilters.dart';
 
 import '../pages/upload/upload_description.dart';
+import 'auth_controller.dart';
 
 class UploadController extends GetxController {
   var albums = [];
   RxList<AssetEntity> imageList = <AssetEntity>[].obs;
   RxString headerTitle = ''.obs;
   RxBool titleImage = false.obs;
+  TextEditingController textEditingController = TextEditingController();
   Rx<AssetEntity> selectedImage =
       AssetEntity(id: '0', typeInt: 0, width: 200, height: 200).obs;
   File? filteredImage;
+  Post? post;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     _loadPhotos();
+    post = Post.init(AuthController.to.user.value);
   }
 
   //갤러리 안에있는 데이터 가져오기
@@ -96,5 +104,37 @@ class UploadController extends GetxController {
       filteredImage = imagefile['image_filtered'];
       Get.to(() => const UploadDescription());
     }
+  }
+
+  void unfocusKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void uploadPost() {
+    unfocusKeyboard();
+    print(textEditingController.text);
+    String filename = DataUtil.makeFilePath();
+    var task = uploadXFile(
+        filteredImage!, '/${AuthController.to.user.value.uid}/${filename}');
+    if (task != null) {
+      task.snapshotEvents.listen((event) {
+        if (event.state == TaskState.success &&
+            event.bytesTransferred == event.totalBytes) {
+          var downloadUrl = event.ref.getDownloadURL();
+          post!.copyWith()
+        }
+      });
+    }
+  }
+
+  UploadTask uploadXFile(File file, String filename) {
+    var f = File(file.path);
+    var ref = FirebaseStorage.instance.ref().child('instagram').child(filename);
+    final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': file.path});
+
+    return ref.putFile(f, metadata);
+    //users/{uid}/profile.jpg or profile.png
   }
 }
