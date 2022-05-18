@@ -44,11 +44,13 @@ class Post {
       userInfo:
           json['userInfo'] == null ? null : IUser.fromJson(json['userInfo']),
       uid: json['uid'] == null ? '' : json['uid'] as String,
-      createdAt:
-          json['createdAt'] == null ? DateTime.now() : json['createdAt'].toDate,
-      updatedAt:
-          json['updatedAt'] == null ? DateTime.now() : json['updatedAt'].toDate,
-      deletedAt: json['deletedAt'] == null ? null : json['deletedAt'].toDate,
+      createdAt: json['createdAt'] == null
+          ? DateTime.now()
+          : json['createdAt'].toDate(),
+      updatedAt: json['updatedAt'] == null
+          ? DateTime.now()
+          : json['updatedAt'].toDate(),
+      deletedAt: json['deletedAt'] == null ? null : json['deletedAt'].toDate(),
     );
   }
 
@@ -74,5 +76,19 @@ class Post {
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'thumbnail': thumbnail,
+      'description': description,
+      'likeCount': likeCount,
+      'userInfo': userInfo!.toMap(),
+      'uid': uid,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+    };
   }
 }

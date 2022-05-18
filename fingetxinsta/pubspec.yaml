@@ -48,6 +48,7 @@ dependencies:
   firebase_storage: ^10.2.15
   photofilters: ^3.0.1
   uuid: ^3.0.6
+  timeago: ^3.2.2
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:fingetxinsta/components/message_popup.dart';
 import 'package:fingetxinsta/src/models/post.dart';
+import 'package:fingetxinsta/src/repository/post_repository.dart';
 import 'package:fingetxinsta/src/utils/data_util.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -117,11 +119,15 @@ class UploadController extends GetxController {
     var task = uploadXFile(
         filteredImage!, '/${AuthController.to.user.value.uid}/${filename}');
     if (task != null) {
-      task.snapshotEvents.listen((event) {
+      task.snapshotEvents.listen((event) async {
         if (event.state == TaskState.success &&
             event.bytesTransferred == event.totalBytes) {
-          var downloadUrl = event.ref.getDownloadURL();
-          post!.copyWith()
+          var downloadUrl = await event.ref.getDownloadURL();
+          var updatedPost = post!.copyWith(
+            thumbnail: downloadUrl,
+            description: textEditingController.text,
+          );
+          _submitPost(updatedPost);
         }
       });
     }
@@ -136,5 +142,19 @@ class UploadController extends GetxController {
 
     return ref.putFile(f, metadata);
     //users/{uid}/profile.jpg or profile.png
+  }
+
+  void _submitPost(Post postData) async {
+    await PostRepository.updatePost(postData);
+    showDialog(
+      context: Get.context!,
+      builder: (context) => MessagePopup(
+        title: '포스트',
+        message: '포스팅이 완료 되었습니다.',
+        okCallback: () {
+          Get.until((route) => Get.currentRoute == '/');
+        },
+      ),
+    );
   }
 }
