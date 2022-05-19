@@ -8,8 +8,8 @@ import 'package:getx_study/src/pages/binding.dart';
 import 'package:getx_study/src/pages/named/first.dart';
 import 'package:getx_study/src/pages/named/second.dart';
 import 'package:getx_study/src/pages/next.dart';
+import 'package:getx_study/src/pages/testpage.dart';
 import 'package:getx_study/src/pages/user.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false ,
+      debugShowCheckedModeBanner: false,
       title: "flutter Demo1",
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -38,16 +38,28 @@ class MyApp extends StatelessWidget {
       //getX 라우트 사용법
       getPages: [
         //함수 선언으로 가는법: ctrl + b
-        GetPage(name: "/", page: ()=>Home(),transition: Transition.zoom ),
-        GetPage(name: "/first", page: ()=>FirstNamedPage(),transition: Transition.zoom),
-        GetPage(name: "/second", page: ()=>SecondNamedPage(),transition: Transition.zoom),
-        GetPage(name: "/next", page: ()=>NextPage(),transition: Transition.zoom),
-        GetPage(name: "/user/:uid", page: ()=>UserPage(),transition: Transition.cupertino),
-        GetPage(name: "/binding", page: () => BindingPage(),
+        GetPage(name: "/", page: () => Home(), transition: Transition.zoom),
+        GetPage(
+            name: "/first",
+            page: () => FirstNamedPage(),
+            transition: Transition.zoom),
+        GetPage(
+            name: "/second",
+            page: () => SecondNamedPage(),
+            transition: Transition.zoom),
+        GetPage(
+            name: "/next", page: () => NextPage(), transition: Transition.zoom),
+        GetPage(
+            name: "/user/:uid",
+            page: () => UserPage(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: "/binding",
+            page: () => BindingPage(),
             binding: BindingPageBinding(),
-            transition: Transition.circularReveal)
+            transition: Transition.circularReveal),
+        GetPage(name: "/testpage", page: () => Test()),
       ],
     );
   }
 }
-
