@@ -39,14 +39,8 @@ class Profile extends StatelessWidget {
       ),
     );
   }
-}
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Get.put(ProfileController());
+  Widget ProfileHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -55,10 +49,7 @@ class ProfileHeader extends StatelessWidget {
               Get.find<ProfileController>().ChangeName();
             },
             child: Text('버튼')),
-        ElevatedButton(
-            onPressed: () {
-            },
-            child: Text("팔로우")),
+        ElevatedButton(onPressed: () {}, child: Text("팔로우")),
         ElevatedButton(
             onPressed: () {
               Get.find<ProfileController>().getData();

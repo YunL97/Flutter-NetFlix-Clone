@@ -18,19 +18,17 @@ class Upload extends StatelessWidget {
           width: double.infinity,
           child: SingleChildScrollView(
             child: Column(
-
               children: [
                 Image.file(Get.find<ListController>().userImage, height: 300),
                 Text("이미지 업로드 화면"),
                 TextField(
-                  onChanged: (text) {
-                  },
+                  onChanged: (text) {},
                 ),
                 IconButton(
                     onPressed: () {
                       Get.find<ListController>().addMyData();
                       Navigator.pop(context);
-                      Get.off
+                      // Get.toNamed(page)
                     },
                     icon: Icon(Icons.add_box_outlined))
               ],
