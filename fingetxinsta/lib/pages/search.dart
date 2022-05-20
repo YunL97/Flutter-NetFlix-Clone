@@ -20,6 +20,7 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    //검색 column 칸 2개 먹이기위한 for문
     for (var i = 0; i < 100; i++) {
       var gi = groupIndex.indexOf(min<int>(groupIndex)!);
       var size = 1;
@@ -38,7 +39,9 @@ class _SearchState extends State<Search> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              //버튼 네비게이션 안사라지게 하는법
+              //app.dart 에서 navigator에서  searchNaviationKey.currentState!.maybePop();
+              //하지 않으면 searchfocus 화면이 해제 되지 않기 때문에
+              //focus화면에서 홈으로간 후 다시 뒤로가기 눌러도 focus창이 나옴
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SearchFocus()));
             },

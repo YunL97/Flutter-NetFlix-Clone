@@ -16,10 +16,11 @@ class Root extends GetView<AuthController> {
         //유저 데이터 가져옴
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext _, AsyncSnapshot<User?> user) {
-          //데이터 있으면
+          //데이터 있으면,
           if (user.hasData) {
             //내부 파이어베이스 유저정보를 조회 with user.data.uid
             return FutureBuilder<IUser?>(
+                //user데이터 db 조회 데이터 있으면 user에 데이터 넣음
                 future: controller.loginUser(user.data!.uid),
                 //future IUser데이터가 snapshot로 들어감
                 builder: (context, snapshot) {
@@ -27,10 +28,10 @@ class Root extends GetView<AuthController> {
                     return const App();
                   } else {
                     return Obx(
-                      () => controller.user.value.uid != null
-                          ? const App()
-                          : SignupPage(uid: user.data!.uid),
-                    );
+                        //파이어베이스에서 가져온 데이터가 null 이면
+                        () => controller.user.value.uid != null
+                            ? const App()
+                            : SignupPage(uid: user.data!.uid));
                   }
                 });
           } else {

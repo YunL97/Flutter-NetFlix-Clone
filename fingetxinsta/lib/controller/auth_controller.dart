@@ -24,6 +24,7 @@ class AuthController extends GetxController {
     return userData;
   }
 
+  //회원가입 데이터 집어넣기
   void signup(IUser signupUser, XFile? thumbnail) async {
     if (thumbnail == null) {
       _submitSignup(signupUser);
@@ -31,7 +32,7 @@ class AuthController extends GetxController {
       var task = uploadXFile(thumbnail,
           '${signupUser.uid}/profile.${thumbnail.path.split('.').last}');
       task.snapshotEvents.listen((event) async {
-        print(event.bytesTransferred);
+        // print(event.bytesTransferred);
         if (event.bytesTransferred == event.totalBytes &&
             event.state == TaskState.success) {
           var downloadUrl = await event.ref.getDownloadURL();

@@ -31,11 +31,13 @@ class UploadController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    //gridview 데이터 가져오기
     _loadPhotos();
     post = Post.init(AuthController.to.user.value);
   }
 
   //갤러리 안에있는 데이터 가져오기
+  //PhotoManager 패키지로 이미지 데이터들 가져오기
   void _loadPhotos() async {
     print("asd");
     var result = await PhotoManager.requestPermissionExtend();
@@ -58,14 +60,18 @@ class UploadController extends GetxController {
     }
   }
 
+  //처음 데이터 불러올때는 recent로
   void _loadData() async {
     changeAlbum(albums.first);
 
     // update();
   }
 
+  //recent, picture, download에 맞춰서 이미지 가져옴
   Future<void> _pagingPhotos(AssetPathEntity album) async {
     imageList.clear();
+    print(album);
+    // AssetPathEntity(id: -1617409521, name: Pictures, assetCount: 10)
     var photo = await album.getAssetListPaged(page: 0, size: 30);
     imageList.addAll(photo);
     titleImage(true);
@@ -77,18 +83,20 @@ class UploadController extends GetxController {
     // print(selectedImage);
   }
 
+  //recent, picture, download
   void changeAlbum(AssetPathEntity album) async {
     headerTitle(album.name);
     print(headerTitle);
     await _pagingPhotos(album);
   }
 
+  //이미지 filter패키지로 변경
   void gotoImageFilter() async {
     //file은 기본적으로 future로 쌓여 있어서 풀어줘야함
     var file = await selectedImage.value.file;
     var fileName = basename(file!.path);
     var image = imageLib.decodeImage(file.readAsBytesSync());
-    image = imageLib.copyResize(image!, width: 600);
+    image = imageLib.copyResize(image!, width: 1000);
     var imagefile = await Navigator.push(
       Get.context!,
       MaterialPageRoute(
@@ -104,6 +112,7 @@ class UploadController extends GetxController {
     );
     if (imagefile != null && imagefile.containsKey('image_filtered')) {
       filteredImage = imagefile['image_filtered'];
+      //업데이트 페이지
       Get.to(() => const UploadDescription());
     }
   }

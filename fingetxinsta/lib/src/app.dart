@@ -17,21 +17,28 @@ class App extends GetView<BottomNavController> {
     return WillPopScope(
         child: Obx(
           () => Scaffold(
+            //IndexedStack: index를 가진 stack,
+            //리스트뷰를 스크롤해서 보다가 다른 탭 이동후 다시 돌아오면 리스트가 초기화되는 현상 방지
             body: IndexedStack(
               index: controller.pageIndex.value,
               children: [
+                //getx pageIndex로 화면 뿌려주기
                 const Home(),
+
+                //todo: 네비게이션바 가져가기위한 navigator
                 Navigator(
                   key: controller.searchNaviationKey,
                   onGenerateRoute: (routeSetting) {
+                    print('aasdasd${controller.searchNaviationKey}');
                     return MaterialPageRoute(
                         builder: (context) => const Search());
                   },
                 ),
+                //업로드화면은 BottomNavController에서 Get.to로 뿌려주는데
+                // Container 위젯이 없으면 칸이 한칸 밀림
                 Container(),
-                // Container(child: Center(child: Text('ACTIVITY'))),
                 ActiveHistory(),
-                // Container(child: Center(child: Text('MYPAGE'))),
+
                 const MyPage(),
               ],
             ),
@@ -74,6 +81,7 @@ class App extends GetView<BottomNavController> {
             ),
           ),
         ),
+        //뒤로가기 누를때 실행되는 이벤트
         onWillPop: controller.willPopAction);
   }
 }

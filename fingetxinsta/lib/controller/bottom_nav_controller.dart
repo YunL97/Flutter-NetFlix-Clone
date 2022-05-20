@@ -33,11 +33,13 @@ class BottomNavController extends GetxController {
     }
   }
 
+  //add 중첩 방지
   void _changePage(int value, {bool hasGesture = true}) {
     pageIndex(value);
     if (!hasGesture) return;
     if (bottomHistory.last != value) {
       bottomHistory.add(value);
+      print(bottomHistory);
     }
     // print(bottomHistory);
   }
@@ -60,6 +62,7 @@ class BottomNavController extends GetxController {
       //search focue 에 들어갔을 때 pop해서 뒤로가기
       var page = PageName.values[bottomHistory.last];
       if (page == PageName.SEARCH) {
+        //searfocus 일대 value = true
         var value = await searchNaviationKey.currentState!.maybePop();
         if (value) return false;
       }

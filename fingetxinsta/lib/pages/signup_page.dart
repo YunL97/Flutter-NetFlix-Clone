@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:fingetxinsta/controller/auth_controller.dart';
 import 'package:fingetxinsta/src/models/instagram_user.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +44,7 @@ class _SignupPageState extends State<SignupPage> {
         ),
         ElevatedButton(
           onPressed: () async {
+            //썸네일 이미지
             thumbnailXFild = await _picker.pickImage(
                 source: ImageSource.gallery, imageQuality: 100);
             update();
@@ -121,6 +121,8 @@ class _SignupPageState extends State<SignupPage> {
                 uid: widget.uid,
                 nickname: nicknameController.text,
                 description: descriptionController.text);
+
+            //파이어베이스 데이터 집어넣기
             AuthController.to.signup(signupUser, thumbnailXFild);
           },
           child: Text('회원가입'),

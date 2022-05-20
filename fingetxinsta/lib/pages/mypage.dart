@@ -179,9 +179,10 @@ class MyPage extends GetView<MyPageController> {
         elevation: 0,
         title: Obx(
           () => Text(
+            //파이어베이스 데이터
             controller.targetUser.value.nickname!,
             style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),
           ),
         ),
         actions: [

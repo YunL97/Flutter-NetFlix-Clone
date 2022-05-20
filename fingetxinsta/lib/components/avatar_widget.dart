@@ -23,6 +23,7 @@ class AvatarWidget extends StatelessWidget {
     this.size = 45,
   }) : super(key: key);
 
+  //동그라미 프로필
   Widget type1Widget() {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),

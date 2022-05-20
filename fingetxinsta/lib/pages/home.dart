@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import '../components/avatar_widget.dart';
 
-//1621
 class Home extends GetView<HomeController> {
   const Home({Key? key}) : super(key: key);
 
@@ -40,6 +39,7 @@ class Home extends GetView<HomeController> {
     );
   }
 
+  //home화면 프로필 가로로 쭉 나오는 코드
   Widget _storyBoardList() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -57,6 +57,7 @@ class Home extends GetView<HomeController> {
     );
   }
 
+  //포스트 나오는 화면
   Widget _postList() {
     return Obx(() => Column(
           children: List.generate(controller.postList.length,

@@ -22,7 +22,9 @@ class Upload extends GetView<UploadController> {
       child: Obx(() => controller.titleImage.value == false
           ? Container()
           : FutureBuilder(
-              future: controller.selectedImage.value.thumbnailData,
+              future: controller.selectedImage.value.thumbnailDataWithSize(
+                  const ThumbnailSize.square(1000),
+                  quality: 100),
               builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
                 if (snapshot.hasData) {
                   return Image.memory(
@@ -79,6 +81,7 @@ class Upload extends GetView<UploadController> {
                                 height: 4,
                               ),
                             ),
+                            //recent, picture, download
                             Expanded(
                               child: SingleChildScrollView(
                                   child: Column(
