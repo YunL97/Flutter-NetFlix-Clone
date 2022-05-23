@@ -187,7 +187,7 @@ class Upload extends GetView<UploadController> {
     //futurebuilder이 없으면 데이터가 다 받아지기를 기다릴 후 화면ㅇ르 그리거나 데이터가 변함을 setState()를 통해 바꿔주어야한다.
     //builder부분이 실행되고 끝나면 future부분이 실행된다.
     return FutureBuilder(
-        future: asset.thumbnailDataWithSize(ThumbnailSize(200, 200)),
+        future: asset.thumbnailDataWithSize(ThumbnailSize(400, 400)),
         builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
           if (snapshot.hasData) {
             return GestureDetector(

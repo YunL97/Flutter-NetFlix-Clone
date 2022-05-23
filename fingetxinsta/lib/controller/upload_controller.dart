@@ -111,6 +111,7 @@ class UploadController extends GetxController {
       ),
     );
     if (imagefile != null && imagefile.containsKey('image_filtered')) {
+      //
       filteredImage = imagefile['image_filtered'];
       //업데이트 페이지
       Get.to(() => const UploadDescription());
@@ -161,6 +162,7 @@ class UploadController extends GetxController {
         title: '포스트',
         message: '포스팅이 완료 되었습니다.',
         okCallback: () {
+          //Get.until / > A > B > C > D > E(현재페이지), '/' 페이지가 나올 때 까지 앞의 페이지를 종료하는 방법
           Get.until((route) => Get.currentRoute == '/');
         },
       ),

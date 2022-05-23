@@ -13,12 +13,13 @@ class UploadDescription extends GetView<UploadController> {
       child: Row(
         children: [
           SizedBox(
-            width: 60,
-            height: 60,
+            width: 63,
+            height: 63,
             child: Image.file(controller.filteredImage!, fit: BoxFit.cover),
           ),
           Expanded(
               child: TextField(
+            //컨트롤러로 textfield에서 쓰는 text 저장
             controller: controller.textEditingController,
             maxLines: null,
             decoration: const InputDecoration(
