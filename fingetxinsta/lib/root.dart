@@ -1,7 +1,7 @@
 import 'package:fingetxinsta/controller/auth_controller.dart';
 import 'package:fingetxinsta/pages/login.dart';
 import 'package:fingetxinsta/pages/signup_page.dart';
-import 'package:fingetxinsta/src/app.dart';
+import 'package:fingetxinsta/app.dart';
 import 'package:fingetxinsta/src/models/instagram_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

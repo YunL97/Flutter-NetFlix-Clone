@@ -1,6 +1,6 @@
 import 'package:fingetxinsta/components/image_data.dart';
 import 'package:fingetxinsta/controller/upload_controller.dart';
-import 'package:fingetxinsta/src/app.dart';
+import 'package:fingetxinsta/app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
